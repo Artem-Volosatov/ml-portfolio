@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  ml-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_STORAGE_PATH=/app/models
+      - MAX_CORES=4
+      - MAX_LOADED_MODELS=10
+    volumes:
+      # Сохраняем модели на хосте (чтобы не терялись при перезапуске)
+      - ./models:/app/models
+    restart: unless-stopped
